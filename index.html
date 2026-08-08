@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Para ti ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #16001f, #420029, #170014);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        /* Fondo con pequeñas estrellas */
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: 0.2;
+                transform: scale(0.7);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.4);
+            }
+        }
+
+        /* Pantalla inicial */
+        .inicio {
+            position: absolute;
+            text-align: center;
+            z-index: 10;
+            transition: 1s;
+        }
+
+        .inicio h1 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+
+        .boton {
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(45deg, #ff2e75, #ff5c9a);
+            box-shadow: 0 0 25px rgba(255, 50, 120, 0.6);
+            transition: 0.3s;
+        }
+
+        .boton:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(255, 50, 120, 0.9);
+        }
+
+        /* Carta */
+        .carta {
+            opacity: 0;
+            transform: scale(0.7);
+            pointer-events: none;
+            position: relative;
+            z-index: 5;
+            width: min(90%, 650px);
+            padding: 45px 35px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 60px rgba(255, 20, 100, 0.25);
+            transition: 1.2s;
+        }
+
+        .carta.mostrar {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .inicio.ocultar {
+            opacity: 0;
+            transform: scale(1.5);
+            pointer-events: none;
+        }
+
+        /* Corazón */
+        .corazon {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 10px auto 30px;
+            animation: latido 1.2s infinite;
+        }
+
+        .corazon::before,
+        .corazon::after {
+            content: "";
+            position: absolute;
+            width: 42px;
+            height: 65px;
+            background: #ff2e75;
+            border-radius: 50px 50px 0 0;
+            top: 0;
+        }
+
+        .corazon::before {
+            left: 40px;
+            transform: rotate(45deg);
+            transform-origin: 0 100%;
+        }
+
+        .corazon::after {
+            left: 0;
+            transform: rotate(-45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes latido {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        .titulo {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #ff9fc1;
+        }
+
+        .mensaje {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            min-height: 180px;
+        }
+
+        .firma {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            color: #ff9fc1;
+        }
+
+        /* Corazones flotando */
+        .corazon-flotante {
+            position: fixed;
+            bottom: -50px;
+            font-size: 25px;
+            animation: subir linear forwards;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes subir {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Adaptación para celular */
+        @media (max-width: 600px) {
+
+            .inicio h1 {
+                font-size: 1.7rem;
+            }
+
+            .carta {
+                padding: 35px 22px;
+            }
+
+            .titulo {
+                font-size: 1.6rem;
+            }
+
+            .mensaje {
+                font-size: 1.05rem;
+                line-height: 1.7;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Estrellas -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Pantalla inicial -->
+    <div class="inicio" id="inicio">
+
+        <h1>Tengo algo que decirte... ❤️</h1>
+
+        <button class="boton" onclick="abrirCarta()">
+            Haz clic aquí 💌
+        </button>
+
+    </div>
+
+
+    <!-- Carta -->
+    <div class="carta" id="carta">
+
+        <div class="corazon"></div>
+
+        <h1 class="titulo">
+            Para la persona más especial ❤️
+        </h1>
+
+        <p class="mensaje" id="mensaje"></p>
+
+        <div class="firma">
+            Con todo mi amor ❤️
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* Texto de la carta */
+        const texto = `
+Eres la más bonita en todo el mundo,
+te amo mucho muchooooooo demasiado, amor.
+
+Eres mi mundito y la persona más especial
+para mí.
+
+Te amo infinitamente. ❤️
+        `;
+
+
+        /* Abrir carta */
+        function abrirCarta() {
+
+            document.getElementById("inicio").classList.add("ocultar");
+
+            setTimeout(() => {
+
+                document.getElementById("carta").classList.add("mostrar");
+
+                escribirTexto();
+
+            }, 800);
+        }
+
+
+        /* Efecto de máquina de escribir */
+        function escribirTexto() {
+
+            const elemento = document.getElementById("mensaje");
+
+            let i = 0;
+
+            function escribir() {
+
+                if (i < texto.length) {
+
+                    if (texto[i] === "\n") {
+                        elemento.innerHTML += "<br>";
+                    } else {
+                        elemento.innerHTML += texto[i];
+                    }
+
+                    i++;
+
+                    setTimeout(escribir, 45);
+                }
+            }
+
+            escribir();
+        }
+
+
+        /* Crear corazones flotantes */
+        function crearCorazon() {
+
+            const corazon = document.createElement("div");
+
+            corazon.classList.add("corazon-flotante");
+
+            const corazones = ["❤️", "💗", "💕", "💖", "💘"];
+
+            corazon.innerHTML =
+                corazones[Math.floor(Math.random() * corazones.length)];
+
+            corazon.style.left = Math.random() * 100 + "vw";
+
+            const tamaño = Math.random() * 20 + 15;
+
+            corazon.style.fontSize = tamaño + "px";
+
+            const duracion = Math.random() * 4 + 5;
+
+            corazon.style.animationDuration = duracion + "s";
+
+            document.body.appendChild(corazon);
+
+            setTimeout(() => {
+                corazon.remove();
+            }, duracion * 1000);
+        }
+
+
+        /* Crear corazones constantemente */
+        setInterval(crearCorazon, 500);
+
+
+        /* Crear estrellas */
+        for (let i = 0; i < 80; i++) {
+
+            const estrella = document.createElement("div");
+
+            estrella.classList.add("star");
+
+            estrella.style.left = Math.random() * 100 + "vw";
+
+            estrella.style.top = Math.random() * 100 + "vh";
+
+            estrella.style.animationDelay =
+                Math.random() * 2 + "s";
+
+            document.getElementById("stars").appendChild(estrella);
+        }
+
+    </script>
+
+</body>
+</html> 
