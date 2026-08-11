@@ -4,368 +4,1462 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Para ti ❤️</title>
+    <title>Para mi amor ❤️</title>
 
     <style>
+
+        /* =========================================
+           CONFIGURACIÓN GENERAL
+        ========================================= */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            min-height: 100vh;
-            overflow: hidden;
-            font-family: "Segoe UI", sans-serif;
-            background: linear-gradient(135deg, #16001f, #420029, #170014);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* Fondo con pequeñas estrellas */
-        .stars {
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #681443 0%,
+                    #280020 45%,
+                    #08000d 100%
+                );
+        }
+
+
+        /* =========================================
+           ESTRELLAS DEL FONDO
+        ========================================= */
+
+        #stars {
             position: fixed;
-            width: 100%;
-            height: 100%;
+            inset: 0;
+
             pointer-events: none;
+
+            z-index: 0;
         }
 
         .star {
             position: absolute;
+
             width: 3px;
             height: 3px;
+
             background: white;
+
             border-radius: 50%;
-            opacity: 0.7;
-            animation: twinkle 2s infinite alternate;
+
+            animation:
+                brillo 2s infinite alternate;
         }
 
-        @keyframes twinkle {
+        @keyframes brillo {
+
             from {
-                opacity: 0.2;
-                transform: scale(0.7);
+                opacity: 0.15;
+                transform: scale(0.5);
             }
 
             to {
                 opacity: 1;
-                transform: scale(1.4);
-            }
-        }
-
-        /* Pantalla inicial */
-        .inicio {
-            position: absolute;
-            text-align: center;
-            z-index: 10;
-            transition: 1s;
-        }
-
-        .inicio h1 {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-        }
-
-        .boton {
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            color: white;
-            background: linear-gradient(45deg, #ff2e75, #ff5c9a);
-            box-shadow: 0 0 25px rgba(255, 50, 120, 0.6);
-            transition: 0.3s;
-        }
-
-        .boton:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 40px rgba(255, 50, 120, 0.9);
-        }
-
-        /* Carta */
-        .carta {
-            opacity: 0;
-            transform: scale(0.7);
-            pointer-events: none;
-            position: relative;
-            z-index: 5;
-            width: min(90%, 650px);
-            padding: 45px 35px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 0 60px rgba(255, 20, 100, 0.25);
-            transition: 1.2s;
-        }
-
-        .carta.mostrar {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-
-        .inicio.ocultar {
-            opacity: 0;
-            transform: scale(1.5);
-            pointer-events: none;
-        }
-
-        /* Corazón */
-        .corazon {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 10px auto 30px;
-            animation: latido 1.2s infinite;
-        }
-
-        .corazon::before,
-        .corazon::after {
-            content: "";
-            position: absolute;
-            width: 42px;
-            height: 65px;
-            background: #ff2e75;
-            border-radius: 50px 50px 0 0;
-            top: 0;
-        }
-
-        .corazon::before {
-            left: 40px;
-            transform: rotate(45deg);
-            transform-origin: 0 100%;
-        }
-
-        .corazon::after {
-            left: 0;
-            transform: rotate(-45deg);
-            transform-origin: 100% 100%;
-        }
-
-        @keyframes latido {
-            0%, 100% {
-                transform: scale(1);
+                transform: scale(1.5);
             }
 
-            50% {
-                transform: scale(1.15);
-            }
         }
 
-        .titulo {
-            font-size: 2rem;
-            margin-bottom: 25px;
-            color: #ff9fc1;
-        }
 
-        .mensaje {
-            font-size: 1.25rem;
-            line-height: 1.8;
-            min-height: 180px;
-        }
+        /* =========================================
+           CORAZONES / FLORES / ESTRELLAS FLOTANTES
+        ========================================= */
 
-        .firma {
-            margin-top: 25px;
-            font-size: 1.1rem;
-            color: #ff9fc1;
-        }
-
-        /* Corazones flotando */
-        .corazon-flotante {
+        #particles {
             position: fixed;
-            bottom: -50px;
-            font-size: 25px;
-            animation: subir linear forwards;
+
+            inset: 0;
+
+            overflow: hidden;
+
             pointer-events: none;
+
             z-index: 2;
         }
 
+        .particle {
+            position: absolute;
+
+            bottom: -60px;
+
+            opacity: 0;
+
+            animation:
+                subir linear forwards;
+        }
+
         @keyframes subir {
+
             0% {
-                transform: translateY(0) rotate(0deg);
+
+                transform:
+                    translateY(0)
+                    rotate(0deg)
+                    scale(0.7);
+
                 opacity: 0;
             }
 
             15% {
-                opacity: 1;
+                opacity: 0.9;
             }
 
             100% {
-                transform: translateY(-110vh) rotate(360deg);
+
+                transform:
+                    translateY(-115vh)
+                    rotate(360deg)
+                    scale(1.2);
+
                 opacity: 0;
             }
+
         }
 
-        /* Adaptación para celular */
-        @media (max-width: 600px) {
 
-            .inicio h1 {
-                font-size: 1.7rem;
+        /* =========================================
+           PANTALLA DE INICIO
+        ========================================= */
+
+        .inicio {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 20;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            padding: 25px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #721647 0%,
+                    #2b0023 45%,
+                    #08000d 100%
+                );
+
+            transition:
+                opacity 1.5s,
+                transform 1.5s;
+        }
+
+        .inicio.ocultar {
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transform: scale(1.4);
+        }
+
+        .inicio h1 {
+
+            font-size:
+                clamp(2rem, 7vw, 4.5rem);
+
+            margin-bottom: 15px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    white,
+                    #ff9fc4,
+                    white
+                );
+
+            background-size: 200% auto;
+
+            -webkit-background-clip: text;
+
+            color: transparent;
+
+            animation:
+                textoBrillante 3s linear infinite;
+        }
+
+        @keyframes textoBrillante {
+
+            to {
+                background-position:
+                    200% center;
             }
 
-            .carta {
-                padding: 35px 22px;
+        }
+
+        .inicio p {
+
+            max-width: 600px;
+
+            font-size: 1.15rem;
+
+            line-height: 1.6;
+
+            color: #ffd6e5;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =========================================
+           CORAZÓN PRINCIPAL
+        ========================================= */
+
+        .heart {
+
+            width: 105px;
+
+            height: 105px;
+
+            position: relative;
+
+            transform:
+                rotate(-45deg);
+
+            background:
+                #ff2f75;
+
+            margin-bottom: 45px;
+
+            animation:
+                latido 1.15s infinite;
+
+            filter:
+                drop-shadow(0 0 15px #ff2f75)
+                drop-shadow(0 0 35px #ff2f75);
+        }
+
+        .heart::before,
+        .heart::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 105px;
+
+            height: 105px;
+
+            background: #ff2f75;
+
+            border-radius: 50%;
+        }
+
+        .heart::before {
+
+            top: -52px;
+
+            left: 0;
+        }
+
+        .heart::after {
+
+            left: 52px;
+
+            top: 0;
+        }
+
+        @keyframes latido {
+
+            0%,
+            100% {
+
+                transform:
+                    rotate(-45deg)
+                    scale(1);
             }
 
-            .titulo {
-                font-size: 1.6rem;
+            50% {
+
+                transform:
+                    rotate(-45deg)
+                    scale(1.18);
+            }
+
+        }
+
+
+        /* =========================================
+           BOTONES
+        ========================================= */
+
+        .btn {
+
+            border: none;
+
+            padding:
+                16px 32px;
+
+            border-radius: 40px;
+
+            color: white;
+
+            font-size: 1.05rem;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    45deg,
+                    #ff246b,
+                    #ff68a0
+                );
+
+            box-shadow:
+                0 0 20px
+                rgba(255, 40, 110, .5);
+
+            transition: .3s;
+        }
+
+        .btn:hover {
+
+            transform:
+                translateY(-4px)
+                scale(1.06);
+
+            box-shadow:
+                0 0 35px
+                rgba(255, 40, 110, .8);
+        }
+
+        .btn:active {
+
+            transform:
+                scale(.95);
+        }
+
+
+        /* =========================================
+           CONTENIDO PRINCIPAL
+        ========================================= */
+
+        .contenido {
+
+            position: relative;
+
+            z-index: 5;
+
+            max-width: 950px;
+
+            margin: auto;
+
+            padding:
+                90px 20px;
+
+            text-align: center;
+
+            opacity: 0;
+
+            transform:
+                translateY(50px);
+
+            transition:
+                1.5s;
+        }
+
+        .contenido.mostrar {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* =========================================
+           TÍTULO
+        ========================================= */
+
+        .titulo {
+
+            font-size:
+                clamp(2.2rem, 7vw, 4rem);
+
+            color: #ff9fc5;
+
+            margin-bottom: 30px;
+
+            text-shadow:
+                0 0 20px
+                rgba(255, 70, 130, .6);
+        }
+
+
+        /* =========================================
+           MENSAJE
+        ========================================= */
+
+        .mensaje {
+
+            background:
+                rgba(255,255,255,.07);
+
+            border:
+                1px solid
+                rgba(255,255,255,.15);
+
+            backdrop-filter:
+                blur(15px);
+
+            padding: 40px;
+
+            border-radius: 30px;
+
+            font-size: 1.3rem;
+
+            line-height: 1.9;
+
+            min-height: 230px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,.3);
+        }
+
+        #texto {
+
+            white-space: normal;
+        }
+
+
+        /* =========================================
+           SECCIÓN DE FOTOS
+        ========================================= */
+
+        .fotos {
+
+            margin-top: 90px;
+        }
+
+        .fotos h2 {
+
+            color: #ff9fc5;
+
+            margin-bottom: 15px;
+
+            font-size:
+                clamp(1.8rem, 5vw, 2.5rem);
+        }
+
+        .subtitulo-fotos {
+
+            color: #ffd6e5;
+
+            margin-bottom: 35px;
+
+            font-size: 1.05rem;
+        }
+
+
+        /* =========================================
+           GALERÍA
+        ========================================= */
+
+        .galeria {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 25px;
+
+            max-width: 850px;
+
+            margin: auto;
+        }
+
+
+        /* =========================================
+           TARJETAS DE FOTOS
+        ========================================= */
+
+        .foto {
+
+            height: 480px;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,60,120,.3),
+                    rgba(255,255,255,.05)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.2);
+
+            transition:
+                .6s;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,.35);
+        }
+
+        .foto:hover {
+
+            transform:
+                translateY(-12px)
+                scale(1.025);
+
+            box-shadow:
+                0 20px 60px
+                rgba(255,40,120,.4);
+        }
+
+        .foto img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            position: absolute;
+
+            inset: 0;
+
+            transition:
+                .7s;
+
+            filter:
+                brightness(.82);
+        }
+
+        .foto:hover img {
+
+            transform:
+                scale(1.08);
+
+            filter:
+                brightness(.55);
+        }
+
+
+        /* =========================================
+           TEXTO ENCIMA DE LAS FOTOS
+        ========================================= */
+
+        .texto-foto {
+
+            position: absolute;
+
+            bottom: 0;
+
+            left: 0;
+
+            right: 0;
+
+            z-index: 3;
+
+            padding:
+                80px 20px 25px;
+
+            font-size: 1.1rem;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    transparent,
+                    rgba(0,0,0,.9)
+                );
+
+            transform:
+                translateY(10px);
+
+            transition:
+                .5s;
+        }
+
+        .foto:hover .texto-foto {
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* =========================================
+           MENSAJES SECRETOS
+        ========================================= */
+
+        .secretos {
+
+            margin-top: 100px;
+        }
+
+        .secretos h2 {
+
+            font-size:
+                clamp(1.8rem, 5vw, 2.5rem);
+
+            color: #ff9fc5;
+
+            margin-bottom: 15px;
+        }
+
+        .secretos p {
+
+            color: #ffd6e5;
+
+            margin-bottom: 25px;
+        }
+
+        .mensaje-secreto {
+
+            max-height: 0;
+
+            overflow: hidden;
+
+            opacity: 0;
+
+            transition:
+                max-height 1.2s,
+                opacity 1s;
+        }
+
+        .mensaje-secreto.mostrar {
+
+            max-height: 700px;
+
+            opacity: 1;
+
+            margin-top: 25px;
+        }
+
+        .secreto {
+
+            background:
+                rgba(255,255,255,.07);
+
+            border:
+                1px solid
+                rgba(255,255,255,.15);
+
+            border-radius: 20px;
+
+            padding: 22px;
+
+            margin: 14px 0;
+
+            color: #ffd6e5;
+
+            font-size: 1.05rem;
+
+            transition: .3s;
+        }
+
+        .secreto:hover {
+
+            transform:
+                translateX(8px);
+
+            background:
+                rgba(255,80,140,.12);
+        }
+
+
+        /* =========================================
+           SECCIÓN FINAL
+        ========================================= */
+
+        .final {
+
+            margin-top: 120px;
+
+            min-height: 500px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+        }
+
+        .final h2 {
+
+            font-size:
+                clamp(3rem, 10vw, 6rem);
+
+            color: #ff4f91;
+
+            animation:
+                latidoTexto 1.5s infinite;
+
+            text-shadow:
+                0 0 20px #ff2f75,
+                0 0 50px #ff2f75;
+        }
+
+        .final p {
+
+            margin-top: 25px;
+
+            font-size: 1.4rem;
+
+            color: #ffd6e5;
+
+            margin-bottom: 35px;
+        }
+
+        @keyframes latidoTexto {
+
+            0%,
+            100% {
+
+                transform:
+                    scale(1);
+            }
+
+            50% {
+
+                transform:
+                    scale(1.1);
+            }
+
+        }
+
+
+        /* =========================================
+           EXPLOSIÓN FINAL
+        ========================================= */
+
+        .explosion {
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: 30;
+        }
+
+        .confeti {
+
+            position: absolute;
+
+            font-size: 25px;
+
+            animation:
+                explosion 2.5s forwards;
+        }
+
+        @keyframes explosion {
+
+            from {
+
+                left: 50%;
+
+                top: 50%;
+
+                transform:
+                    scale(.5)
+                    rotate(0deg);
+
+                opacity: 1;
+            }
+
+            to {
+
+                left:
+                    calc(
+                        50% +
+                        (var(--x) * 1px)
+                    );
+
+                top:
+                    calc(
+                        50% +
+                        (var(--y) * 1px)
+                    );
+
+                transform:
+                    scale(1.5)
+                    rotate(720deg);
+
+                opacity: 0;
+            }
+
+        }
+
+
+        /* =========================================
+           MENSAJE FINAL EXTRA
+        ========================================= */
+
+        .final-extra {
+
+            margin-top: 40px;
+
+            font-size: 1rem;
+
+            color: #ffb6d0;
+
+            opacity: .8;
+        }
+
+
+        /* =========================================
+           DISEÑO PARA CELULAR
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            .galeria {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .foto {
+
+                height: 500px;
             }
 
             .mensaje {
-                font-size: 1.05rem;
-                line-height: 1.7;
+
+                font-size: 1.08rem;
+
+                padding: 28px;
+
             }
+
+            .contenido {
+
+                padding:
+                    70px 16px;
+            }
+
+            .inicio p {
+
+                font-size: 1rem;
+            }
+
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <!-- Estrellas -->
-    <div class="stars" id="stars"></div>
 
-    <!-- Pantalla inicial -->
-    <div class="inicio" id="inicio">
+    <!-- =========================================
+         ESTRELLAS
+    ========================================= -->
 
-        <h1>Tengo algo que decirte... ❤️</h1>
-
-        <button class="boton" onclick="abrirCarta()">
-            Haz clic aquí 💌
-        </button>
-
-    </div>
+    <div id="stars"></div>
 
 
-    <!-- Carta -->
-    <div class="carta" id="carta">
+    <!-- =========================================
+         PARTÍCULAS FLOTANTES
+    ========================================= -->
 
-        <div class="corazon"></div>
+    <div id="particles"></div>
 
-        <h1 class="titulo">
-            Para la persona más especial ❤️
+
+    <!-- =========================================
+         PANTALLA DE ENTRADA
+    ========================================= -->
+
+    <section
+        class="inicio"
+        id="inicio"
+    >
+
+        <div class="heart"></div>
+
+        <h1>
+            Para la persona que amo ❤️
         </h1>
 
-        <p class="mensaje" id="mensaje"></p>
+        <p>
+            Preparé algo pequeñito para ti...
+            <br>
+            pero viene desde todo mi corazón.
+        </p>
 
-        <div class="firma">
-            Con todo mi amor ❤️
+        <button
+            class="btn"
+            onclick="abrirCarta()"
+        >
+            Abrir mi carta 💌
+        </button>
+
+    </section>
+
+
+
+    <!-- =========================================
+         CONTENIDO
+    ========================================= -->
+
+    <main
+        class="contenido"
+        id="contenido"
+    >
+
+
+        <!-- =====================================
+             TÍTULO
+        ====================================== -->
+
+        <h1 class="titulo">
+            Para mi amor ❤️
+        </h1>
+
+
+        <!-- =====================================
+             MENSAJE PRINCIPAL
+        ====================================== -->
+
+        <div class="mensaje">
+
+            <p id="texto"></p>
+
         </div>
 
-    </div>
 
+
+        <!-- =====================================
+             FOTOS
+        ====================================== -->
+
+        <section class="fotos">
+
+            <h2>
+                Algunos de nuestros momentos 📸❤️
+            </h2>
+
+            <p class="subtitulo-fotos">
+                Dos recuerdos que guardo con muchísimo cariño.
+            </p>
+
+
+            <div class="galeria">
+
+
+                <!-- FOTO 1 -->
+
+                <div class="foto">
+
+                    <img
+                        src="foto1.jpeg"
+                        alt="Un momento especial juntos"
+                    >
+
+                    <div class="texto-foto">
+
+                        Un momento que siempre
+                        voy a guardar en mi corazón ❤️
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOTO 2 -->
+
+                <div class="foto">
+
+                    <img
+                        src="foto2.jpeg"
+                        alt="Un recuerdo especial"
+                    >
+
+                    <div class="texto-foto">
+
+                        Porque cada recuerdo contigo
+                        se vuelve especial 💕
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             MENSAJES SECRETOS
+        ====================================== -->
+
+        <section class="secretos">
+
+            <h2>
+                Todavía tengo algunas cosas que decirte... 🥰
+            </h2>
+
+            <p>
+                Pero tendrás que descubrirlas.
+            </p>
+
+
+            <button
+                class="btn"
+                onclick="mostrarSecretos()"
+            >
+                Revelar mensajes secretos 💗
+            </button>
+
+
+            <div
+                class="mensaje-secreto"
+                id="secretos"
+            >
+
+                <div class="secreto">
+
+                    💗 Gracias por existir y por hacer
+                    mis días mucho más bonitos.
+
+                </div>
+
+
+                <div class="secreto">
+
+                    🌹 Si pudiera elegir otra vez,
+                    volvería a elegirte a ti.
+
+                </div>
+
+
+                <div class="secreto">
+
+                    ✨ Espero poder seguir creando
+                    muchísimos recuerdos contigo.
+
+                </div>
+
+
+                <div class="secreto">
+
+                    🥰 No sabes lo especial que eres
+                    para mí.
+
+                </div>
+
+
+                <div class="secreto">
+
+                    ❤️ Y recuerda siempre:
+                    eres mi mundito.
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             FINAL
+        ====================================== -->
+
+        <section class="final">
+
+            <h2>
+                TE AMO ❤️
+            </h2>
+
+            <p>
+                Muchísimo, muchísimo, muchísimo...
+            </p>
+
+
+            <button
+                class="btn"
+                onclick="finalRomantico()"
+            >
+                Una última sorpresa 💖
+            </button>
+
+
+            <div class="final-extra">
+
+                Hecho con todo mi corazón ❤️
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================= -->
 
     <script>
 
-        /* Texto de la carta */
+
+        /* =====================================
+           MENSAJE PRINCIPAL
+        ====================================== */
+
         const texto = `
 Eres la más bonita en todo el mundo,
-te amo mucho muchooooooo demasiado, amor.
 
-Eres mi mundito y la persona más especial
-para mí.
+te amo mucho muchooooooo demasiado amor,
 
-Te amo infinitamente. ❤️
+eres mi mundito y la persona más especial para mí,
+
+te amo infinitamente. ❤️
         `;
 
 
-        /* Abrir carta */
+
+        /* =====================================
+           ABRIR CARTA
+        ====================================== */
+
         function abrirCarta() {
 
-            document.getElementById("inicio").classList.add("ocultar");
+            const inicio =
+                document.getElementById("inicio");
+
+            const contenido =
+                document.getElementById("contenido");
+
+
+            inicio.classList.add("ocultar");
+
 
             setTimeout(() => {
 
-                document.getElementById("carta").classList.add("mostrar");
+                contenido.classList.add("mostrar");
 
                 escribirTexto();
 
-            }, 800);
+            }, 900);
+
         }
 
 
-        /* Efecto de máquina de escribir */
+
+        /* =====================================
+           EFECTO MÁQUINA DE ESCRIBIR
+        ====================================== */
+
         function escribirTexto() {
 
-            const elemento = document.getElementById("mensaje");
+            const elemento =
+                document.getElementById("texto");
+
 
             let i = 0;
+
 
             function escribir() {
 
                 if (i < texto.length) {
 
                     if (texto[i] === "\n") {
+
                         elemento.innerHTML += "<br>";
+
                     } else {
-                        elemento.innerHTML += texto[i];
+
+                        elemento.innerHTML +=
+                            texto[i];
+
                     }
 
                     i++;
 
-                    setTimeout(escribir, 45);
+
+                    setTimeout(
+                        escribir,
+                        38
+                    );
+
                 }
+
             }
 
+
             escribir();
+
         }
 
 
-        /* Crear corazones flotantes */
-        function crearCorazon() {
 
-            const corazon = document.createElement("div");
+        /* =====================================
+           MENSAJES SECRETOS
+        ====================================== */
 
-            corazon.classList.add("corazon-flotante");
+        function mostrarSecretos() {
 
-            const corazones = ["❤️", "💗", "💕", "💖", "💘"];
+            const secretos =
+                document.getElementById("secretos");
 
-            corazon.innerHTML =
-                corazones[Math.floor(Math.random() * corazones.length)];
 
-            corazon.style.left = Math.random() * 100 + "vw";
+            secretos.classList.toggle("mostrar");
 
-            const tamaño = Math.random() * 20 + 15;
+        }
 
-            corazon.style.fontSize = tamaño + "px";
 
-            const duracion = Math.random() * 4 + 5;
 
-            corazon.style.animationDuration = duracion + "s";
+        /* =====================================
+           CREAR PARTÍCULAS
+        ====================================== */
 
-            document.body.appendChild(corazon);
+        function crearParticula() {
+
+            const p =
+                document.createElement("div");
+
+
+            p.classList.add("particle");
+
+
+            const tipos = [
+
+                "❤️",
+                "💗",
+                "💕",
+                "💖",
+                "💘",
+                "🌹",
+                "🌸",
+                "✨",
+                "💫"
+
+            ];
+
+
+            p.innerHTML =
+                tipos[
+                    Math.floor(
+                        Math.random() *
+                        tipos.length
+                    )
+                ];
+
+
+            p.style.left =
+                Math.random() * 100 + "vw";
+
+
+            p.style.fontSize =
+                Math.random() * 20 + 15 + "px";
+
+
+            const duracion =
+                Math.random() * 5 + 5;
+
+
+            p.style.animationDuration =
+                duracion + "s";
+
+
+            document
+                .getElementById("particles")
+                .appendChild(p);
+
 
             setTimeout(() => {
-                corazon.remove();
+
+                p.remove();
+
             }, duracion * 1000);
+
         }
 
 
-        /* Crear corazones constantemente */
-        setInterval(crearCorazon, 500);
+        setInterval(
+            crearParticula,
+            450
+        );
 
 
-        /* Crear estrellas */
-        for (let i = 0; i < 80; i++) {
 
-            const estrella = document.createElement("div");
+        /* =====================================
+           CREAR ESTRELLAS
+        ====================================== */
+
+        for (
+            let i = 0;
+            i < 100;
+            i++
+        ) {
+
+            const estrella =
+                document.createElement("div");
+
 
             estrella.classList.add("star");
 
-            estrella.style.left = Math.random() * 100 + "vw";
 
-            estrella.style.top = Math.random() * 100 + "vh";
+            estrella.style.left =
+                Math.random() * 100 + "vw";
+
+
+            estrella.style.top =
+                Math.random() * 100 + "vh";
+
 
             estrella.style.animationDelay =
-                Math.random() * 2 + "s";
+                Math.random() * 3 + "s";
 
-            document.getElementById("stars").appendChild(estrella);
+
+            document
+                .getElementById("stars")
+                .appendChild(estrella);
+
+        }
+
+
+
+        /* =====================================
+           ANIMACIÓN FINAL
+        ====================================== */
+
+        function finalRomantico() {
+
+            const explosion =
+                document.createElement("div");
+
+
+            explosion.classList.add(
+                "explosion"
+            );
+
+
+            const elementos = [
+
+                "❤️",
+                "💖",
+                "💕",
+                "💗",
+                "💘",
+                "✨",
+                "🌹",
+                "🌸",
+                "💫"
+
+            ];
+
+
+            for (
+                let i = 0;
+                i < 100;
+                i++
+            ) {
+
+                const item =
+                    document.createElement("div");
+
+
+                item.classList.add(
+                    "confeti"
+                );
+
+
+                item.innerHTML =
+                    elementos[
+                        Math.floor(
+                            Math.random() *
+                            elementos.length
+                        )
+                    ];
+
+
+                const x =
+                    (Math.random() - .5)
+                    * 1200;
+
+
+                const y =
+                    (Math.random() - .5)
+                    * 1200;
+
+
+                item.style.setProperty(
+                    "--x",
+                    x
+                );
+
+
+                item.style.setProperty(
+                    "--y",
+                    y
+                );
+
+
+                explosion.appendChild(item);
+
+            }
+
+
+            document.body.appendChild(
+                explosion
+            );
+
+
+            setTimeout(() => {
+
+                explosion.remove();
+
+            }, 3000);
+
         }
 
     </script>
 
+
 </body>
-</html> 
+</html>
